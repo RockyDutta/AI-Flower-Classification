@@ -603,3 +603,9 @@ header[data-testid='stHeader'] { background-color: transparent !important; visib
 [data-testid='collapsedControl'] { visibility: visible !important; display: flex !important; color: #ffffff !important; background-color: #000000 !important; opacity: 1 !important; z-index: 9999999 !important; border-radius: 5px !important; }
 section[data-testid='stSidebar'] { visibility: visible !important; }
 
+
+/* Force all slider digits to be yellow */
+[data-baseweb='slider'] div, [data-testid='stThumbValue'] {
+    color: #FFFF00 !important;
+}
+
