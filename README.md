@@ -175,11 +175,11 @@ The pipeline implemented in `src/train.py` follows this sequence:
 
 ## 🖼️ Screenshots
 
-> The screenshots below are placeholders. After running the app locally with `streamlit run app.py`, take your own screenshots and replace the files in `assets/screenshots/` (suggested names: `predict_page.png`, `eda_page.png`, `comparison_page.png`), then update the image links below.
+> The screenshots below are placeholders. After running the app locally with `streamlit run app.py`, take your own screenshots and replace the files in `assets/screenshots/` (suggested names: `predict_page.png`, `eda_page.png`), then update the image links below.
 
-| Predict | Dataset & EDA | Model Comparison |
-|---|---|---|
-| ![Predict](assets/screenshots/predict_page.png) | ![EDA](assets/screenshots/eda_page.png) | ![Comparison](assets/screenshots/comparison_page.png) |
+| Predict | Dataset & EDA |
+|---|---|
+| ![Predict](assets/screenshots/predict_page.png) | ![EDA](assets/screenshots/eda_page.png) |
 
 ---
 
@@ -193,7 +193,7 @@ The pipeline implemented in `src/train.py` follows this sequence:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/yourusername/AI-Flower-Classification.git
+git clone https://github.com/RockyDutta/AI-Flower-Classification.git
 cd AI-Flower-Classification
 
 # 2. Create a virtual environment (recommended)
