@@ -589,3 +589,13 @@ hr { border-color: var(--glass-border) !important; }
     .glass-card { padding: 1.2rem 1.3rem; }
     .stat-number { font-size: 1.7rem; }
 }
+
+/* Force the Sidebar toggle button to be highly visible */
+[data-testid='collapsedControl'], [data-testid='stSidebarCollapsedControl'] {
+    background-color: rgba(255,255,255,0.1) !important;
+    border-radius: 5px !important;
+    color: white !important;
+    visibility: visible !important;
+    display: flex !important;
+    z-index: 999999 !important;
+}
