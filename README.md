@@ -7,7 +7,7 @@
 
 👉 **Try the application here:**
 
-https://ai-flower-classification-hutrmffgfzdybauikhtocj.streamlit.app
+https://rockydutta-ai-flower-classification-app-xlvilf.streamlit.app/
 
 ### An End-to-End Machine Learning Pipeline for Iris Species Classification
 
