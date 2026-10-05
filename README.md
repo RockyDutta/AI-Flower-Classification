@@ -16,7 +16,6 @@ https://ai-flower-classification-hutrmffgfzdybauikhtocj.streamlit.app
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.3%2B-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.32%2B-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)](https://streamlit.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-Passing-4A7C59?style=flat-square&logo=pytest&logoColor=white)](tests/)
 [![Model Accuracy](https://img.shields.io/badge/Test%20Accuracy-100%25-6B5B95?style=flat-square)](models/metrics.json)
 [![Version](https://img.shields.io/badge/Version-v2.0.0-B565A7?style=flat-square)](app.py)
@@ -69,7 +68,7 @@ The project demonstrates a complete, professional machine learning workflow: fro
 - Modular `src/` architecture with single-responsibility modules
 - Full type hints and docstrings throughout
 - Automated test suite (`pytest`) covering data, preprocessing, and inference
-- Clean `.gitignore`, MIT license, and reproducible `requirements.txt`
+- Clean `.gitignore` and reproducible `requirements.txt`
 
 ---
 
@@ -81,7 +80,6 @@ AI-Flower-Classification/
 ├── app.py                     # Streamlit web application (entry point)
 ├── requirements.txt           # Python dependencies
 ├── README.md                  # Project documentation (this file)
-├── LICENSE                    # MIT License
 ├── .gitignore                 # Git ignore rules
 │
 ├── dataset/
@@ -302,9 +300,6 @@ python src/predict.py
    Rocky Dutta
 ---
 
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE) — free to use, modify, and distribute with attribution.
 
 ---
 
