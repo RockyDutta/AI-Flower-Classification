@@ -1,0 +1,591 @@
+/* =====================================================================
+   AI FLOWER CLASSIFICATION SYSTEM — PREMIUM DESIGN SYSTEM v2
+   ---------------------------------------------------------------------
+   Author: Rocky Dutta 
+   Palette: Primary #B565A7 · Secondary #6B5B95 · Accent #D4A574
+   Font:    Inter (Google Fonts)
+
+   NOTE ON THEMING: Dark/Light mode is applied by overriding the CSS
+   custom properties below directly on :root from Python (see app.py's
+   `apply_theme_variables()`), which is more reliable inside Streamlit
+   than toggling DOM classes via injected <script> tags.
+   ===================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* =====================================================================
+   1. DESIGN TOKENS (CSS VARIABLES)
+   ===================================================================== */
+:root {
+    --primary: #B565A7;
+    --primary-soft: rgba(181, 101, 167, 0.18);
+    --secondary: #6B5B95;
+    --secondary-soft: rgba(107, 91, 149, 0.18);
+    --accent: #D4A574;
+    --accent-soft: rgba(212, 165, 116, 0.18);
+    --success: #4A7C59;
+    --success-soft: rgba(74, 124, 89, 0.18);
+    --danger: #C4665C;
+
+    --bg-gradient: linear-gradient(160deg, #241B36 0%, #33264D 35%, #4A3B6B 65%, #6B5B95 100%);
+    --glass-bg: rgba(255, 255, 255, 0.07);
+    --glass-bg-strong: rgba(255, 255, 255, 0.12);
+    --glass-border: rgba(255, 255, 255, 0.16);
+    --text-primary: #F7F3FB;
+    --text-secondary: rgba(247, 243, 251, 0.72);
+    --text-muted: rgba(247, 243, 251, 0.5);
+    --shadow-soft: 0 8px 32px rgba(20, 14, 32, 0.35);
+    --shadow-strong: 0 20px 50px rgba(20, 14, 32, 0.5);
+    --shadow-glow: 0 0 40px rgba(181, 101, 167, 0.35);
+
+    --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+    --radius-sm: 12px;
+    --radius-md: 18px;
+    --radius-lg: 26px;
+    --radius-pill: 999px;
+}
+
+/* =====================================================================
+   2. GLOBAL RESET & SCROLLBAR
+   ===================================================================== */
+html, body, .stApp { font-family: var(--font-body); color: var(--text-primary); }
+
+.stApp {
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    background-size: 200% 200%;
+    animation: gradientShift 22s ease infinite;
+    transition: background 0.5s ease;
+}
+
+@keyframes gradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--primary), var(--secondary));
+    border-radius: var(--radius-pill);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+#MainMenu { visibility: hidden; }
+footer { visibility: hidden; }
+header[data-testid="stHeader"] { background: rgba(0,0,0,0); }
+
+/* Hide Streamlit Deploy Button & Toolbar */
+.stDeployButton { visibility: hidden !important; display: none !important; }
+[data-testid="stToolbar"] { visibility: hidden !important; display: none !important; }
+
+/* Accessibility: visible focus ring for keyboard users */
+a:focus-visible, button:focus-visible, [role="radio"]:focus-visible {
+    outline: 2px solid var(--accent) !important;
+    outline-offset: 2px !important;
+}
+
+/* =====================================================================
+   3. ANIMATION LIBRARY
+   ===================================================================== */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes floaty { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+@keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 18px rgba(181, 101, 167, 0.3); }
+    50% { box-shadow: 0 0 34px rgba(181, 101, 167, 0.55); }
+}
+@keyframes gradientText {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+@keyframes checkPop {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+@keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+}
+@keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.fade-in { animation: fadeIn 0.6s ease both; }
+.slide-up { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.slide-down { animation: slideDown 0.5s ease both; }
+.scale-in { animation: scaleIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.float-el { animation: floaty 4.5s ease-in-out infinite; }
+.delay-1 { animation-delay: 0.08s; }
+.delay-2 { animation-delay: 0.16s; }
+.delay-3 { animation-delay: 0.24s; }
+.delay-4 { animation-delay: 0.32s; }
+
+/* =====================================================================
+   4. HERO SECTION
+   ===================================================================== */
+.hero-wrap { text-align: left; padding: 0.4rem 0 1.2rem 0; animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--radius-pill);
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border);
+    color: var(--accent);
+    margin-bottom: 1rem;
+    animation: floaty 5s ease-in-out infinite;
+}
+
+.hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1.08;
+    margin: 0;
+    background: linear-gradient(100deg, #F7F3FB 0%, var(--accent) 35%, var(--primary) 65%, var(--secondary) 100%);
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientText 6s ease infinite;
+    letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+    font-family: var(--font-body);
+    color: var(--text-secondary);
+    font-size: 1.08rem;
+    font-weight: 400;
+    line-height: 1.65;
+    max-width: 760px;
+    margin-top: 0.9rem;
+}
+
+/* =====================================================================
+   5. GLASSMORPHISM CARDS
+   ===================================================================== */
+.glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 1.7rem 1.9rem;
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 1.2rem;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.glass-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-strong); border-color: rgba(212, 165, 116, 0.45); }
+
+.stat-card { text-align: center; padding: 1.3rem 0.8rem; }
+.stat-icon { font-size: 1.6rem; margin-bottom: 0.3rem; }
+.stat-number {
+    font-family: var(--font-display);
+    font-size: 2.15rem;
+    font-weight: 800;
+    background: linear-gradient(120deg, var(--accent), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+}
+.stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+}
+
+/* Welcome section */
+.welcome-card {
+    text-align: center;
+    padding: 2.1rem 2rem;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, var(--secondary-soft), var(--primary-soft));
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(22px);
+    box-shadow: var(--shadow-soft);
+    animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.welcome-card h3 { font-family: var(--font-display); font-weight: 700; color: var(--text-primary); margin-bottom: 0.6rem; }
+.welcome-steps { display: flex; justify-content: center; gap: 1.4rem; flex-wrap: wrap; margin-top: 1.2rem; }
+.welcome-step {
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: 0.9rem 1.2rem;
+    min-width: 180px;
+    text-align: left;
+    transition: transform 0.25s ease;
+}
+.welcome-step:hover { transform: translateY(-4px); }
+.welcome-step .step-num { font-family: var(--font-mono); color: var(--accent); font-size: 0.75rem; letter-spacing: 0.08em; }
+.welcome-step .step-title { font-weight: 600; color: var(--text-primary); margin-top: 0.2rem; }
+
+/* =====================================================================
+   6. PREDICTION RESULT CARD & CONFIDENCE METER
+   ===================================================================== */
+.prediction-hero {
+    text-align: center;
+    padding: 2.4rem 1.6rem;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, var(--secondary-soft), var(--primary-soft) 60%, var(--accent-soft));
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(24px);
+    box-shadow: var(--shadow-glow);
+    animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    position: relative;
+    overflow: hidden;
+}
+.prediction-hero::before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background: radial-gradient(circle, rgba(212,165,116,0.18) 0%, transparent 65%);
+    animation: floaty 6s ease-in-out infinite;
+}
+.prediction-check { font-size: 2.4rem; animation: checkPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.prediction-species {
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0.35rem 0;
+    text-transform: capitalize;
+    position: relative;
+}
+.confidence-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+    font-weight: 600;
+    padding: 0.4rem 1.1rem;
+    border-radius: var(--radius-pill);
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    margin-top: 0.6rem;
+    position: relative;
+    animation: glowPulse 2.4s ease-in-out infinite;
+}
+.prediction-summary { margin-top: 1.4rem; display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap; position: relative; }
+.summary-chip {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border);
+    padding: 0.4rem 0.85rem;
+    border-radius: var(--radius-pill);
+    color: var(--text-secondary);
+}
+.summary-chip b { color: var(--text-primary); }
+
+/* Recent prediction mini cards */
+.recent-card {
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.2s ease;
+    animation: slideUp 0.4s ease both;
+}
+.recent-card:hover { transform: translateX(4px); border-color: var(--accent); }
+.recent-card .rc-species { font-weight: 700; color: var(--text-primary); }
+.recent-card .rc-time { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); }
+.recent-card .rc-conf { font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent); font-weight: 600; }
+
+/* Timeline (prediction history + about-page career timeline) */
+.timeline { position: relative; padding-left: 1.6rem; margin-top: 0.6rem; }
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 4px;
+    bottom: 4px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--accent), var(--secondary));
+}
+.timeline-item { position: relative; margin-bottom: 1.1rem; }
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -1.6rem;
+    top: 4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+}
+.timeline-item .tl-title { font-weight: 700; color: var(--text-primary); }
+.timeline-item .tl-sub { font-size: 0.82rem; color: var(--text-muted); font-family: var(--font-mono); }
+
+/* =====================================================================
+   7. BUTTONS
+   ===================================================================== */
+div.stButton > button,
+div[data-testid="stLinkButton"] a {
+    font-family: var(--font-body) !important;
+    font-weight: 600 !important;
+    border-radius: var(--radius-md) !important;
+    border: 1px solid var(--glass-border) !important;
+    background: linear-gradient(120deg, var(--secondary), var(--primary)) !important;
+    color: #FBF7FF !important;
+    padding: 0.65rem 1.4rem !important;
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 6px 18px rgba(107, 91, 149, 0.35) !important;
+    position: relative;
+    overflow: hidden;
+}
+div.stButton > button:hover,
+div[data-testid="stLinkButton"] a:hover {
+    transform: translateY(-3px) scale(1.015) !important;
+    box-shadow: 0 12px 28px rgba(181, 101, 167, 0.45) !important;
+    border-color: var(--accent) !important;
+}
+div.stButton > button:active { transform: translateY(-1px) scale(0.98) !important; }
+
+div.stDownloadButton > button {
+    font-family: var(--font-body) !important;
+    font-weight: 600 !important;
+    border-radius: var(--radius-md) !important;
+    background: var(--glass-bg-strong) !important;
+    border: 1px solid var(--accent) !important;
+    color: var(--accent) !important;
+    transition: all 0.25s ease !important;
+}
+div.stDownloadButton > button:hover { background: var(--accent-soft) !important; transform: translateY(-2px) !important; }
+
+/* =====================================================================
+   8. SLIDERS, TOGGLES, RADIO, EXPANDERS
+   ===================================================================== */
+div[data-testid="stSlider"] label { font-family: var(--font-body) !important; font-weight: 600 !important; color: var(--text-primary) !important; font-size: 0.92rem !important; }
+div[data-testid="stSlider"] > div > div > div > div { background: linear-gradient(90deg, var(--secondary), var(--primary)) !important; }
+div[data-testid="stTickBar"] { display: none; }
+div[data-baseweb="slider"] div[role="slider"] { background: var(--accent) !important; box-shadow: 0 0 0 6px rgba(212, 165, 116, 0.2) !important; border: 2px solid #fff !important; }
+
+div[role="radiogroup"] label { font-family: var(--font-body) !important; font-weight: 500 !important; }
+div[data-testid="stToggle"] label { font-weight: 600 !important; }
+
+div[data-testid="stExpander"] {
+    border-radius: var(--radius-md) !important;
+    border: 1px solid var(--glass-border) !important;
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(16px);
+    overflow: hidden;
+}
+div[data-testid="stExpander"] summary { font-family: var(--font-body) !important; font-weight: 600 !important; }
+
+/* =====================================================================
+   9. DATAFRAMES & TABLES
+   ===================================================================== */
+div[data-testid="stDataFrame"] {
+    border-radius: var(--radius-md) !important;
+    overflow: hidden;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: var(--shadow-soft);
+    animation: fadeIn 0.5s ease both;
+}
+
+/* =====================================================================
+   10. SECTION LABELS & HEADINGS
+   ===================================================================== */
+.section-label {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.section-label::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--glass-border), transparent); }
+.section-title { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin: 0 0 0.3rem 0; }
+.section-desc { font-family: var(--font-body); color: var(--text-secondary); font-size: 0.96rem; margin-bottom: 1rem; }
+h1, h2, h3 { font-family: var(--font-display); color: var(--text-primary); }
+p, span, div { color: inherit; }
+
+/* =====================================================================
+   11. SIDEBAR
+   ===================================================================== */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #1B1428 0%, #2E2246 55%, #3E2F5C 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+section[data-testid="stSidebar"] * { color: #F7F3FB !important; }
+
+.sidebar-brand { display: flex; align-items: center; gap: 10px; padding: 0.4rem 0 1rem 0; animation: slideDown 0.5s ease both; }
+.sidebar-brand .logo-mark { font-size: 1.8rem; animation: floaty 4s ease-in-out infinite; }
+.sidebar-brand .brand-text b { font-family: var(--font-display); font-size: 1.02rem; display: block; line-height: 1.15; }
+.sidebar-brand .brand-text span { font-family: var(--font-mono); font-size: 0.68rem; color: rgba(247, 243, 251, 0.55) !important; letter-spacing: 0.05em; }
+
+.sidebar-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent); margin: 1rem 0; border: none; }
+
+/* AI status pill */
+.ai-status { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.72rem; padding: 0.5rem 0.8rem; border-radius: var(--radius-pill); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); margin-bottom: 0.8rem; }
+.ai-status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: pulseDot 1.8s ease-in-out infinite; }
+.ai-status.offline .dot { background: var(--danger); }
+
+/* Live clock */
+.live-clock { font-family: var(--font-mono); font-size: 0.74rem; color: rgba(247,243,251,0.65) !important; text-align: center; margin-bottom: 0.8rem; letter-spacing: 0.04em; }
+
+/* ML tip card */
+.tip-card {
+    background: rgba(212, 165, 116, 0.08);
+    border: 1px solid rgba(212, 165, 116, 0.25);
+    border-radius: var(--radius-md);
+    padding: 0.8rem 0.9rem;
+    font-size: 0.76rem;
+    line-height: 1.5;
+    margin-bottom: 0.8rem;
+}
+.tip-card b { color: var(--accent) !important; }
+
+/* Floating developer card in sidebar */
+.dev-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-lg);
+    padding: 1.2rem 1.1rem;
+    backdrop-filter: blur(14px);
+    text-align: center;
+    animation: floaty 5s ease-in-out infinite;
+    box-shadow: 0 10px 26px rgba(0,0,0,0.25);
+}
+.dev-avatar {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin: 0 auto 0.6rem auto;
+    box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.25);
+}
+.dev-avatar.lg { width: 88px; height: 88px; font-size: 2.4rem; }
+.dev-name { font-family: var(--font-display); font-weight: 700; font-size: 1.02rem; margin-bottom: 0.15rem; }
+.dev-role { font-family: var(--font-mono); font-size: 0.68rem; color: rgba(247, 243, 251, 0.6) !important; letter-spacing: 0.04em; margin-bottom: 0.6rem; }
+.dev-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin: 0.5rem 0 0.7rem 0; }
+.dev-tag { font-family: var(--font-mono); font-size: 0.62rem; padding: 0.22rem 0.55rem; border-radius: var(--radius-pill); background: rgba(212, 165, 116, 0.15); border: 1px solid rgba(212, 165, 116, 0.35); color: var(--accent) !important; }
+.dev-open { font-family: var(--font-mono); font-size: 0.66rem; color: var(--success) !important; background: rgba(74, 124, 89, 0.18); border: 1px solid rgba(74, 124, 89, 0.4); border-radius: var(--radius-pill); padding: 0.3rem 0.7rem; display: inline-block; margin-top: 0.3rem; }
+
+.version-tag { text-align: center; font-family: var(--font-mono); font-size: 0.64rem; color: rgba(247,243,251,0.4) !important; margin-top: 0.8rem; letter-spacing: 0.06em; }
+
+/* =====================================================================
+   12. ABOUT PAGE: SKILLS, WORKFLOW, TIMELINE
+   ===================================================================== */
+.skill-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    padding: 0.45rem 1rem;
+    margin: 0.25rem;
+    border-radius: var(--radius-pill);
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    transition: all 0.25s ease;
+}
+.skill-badge:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+.workflow-row { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0.4rem; margin: 1rem 0; }
+.workflow-step {
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: 0.7rem 1.1rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-primary);
+    text-align: center;
+    min-width: 118px;
+    transition: transform 0.25s ease;
+}
+.workflow-step:hover { transform: translateY(-4px); border-color: var(--accent); }
+.workflow-arrow { color: var(--accent); font-size: 1.1rem; }
+
+/* =====================================================================
+   13. FOOTER
+   ===================================================================== */
+.app-footer { text-align: center; padding: 2rem 1rem 1rem 1rem; margin-top: 2.5rem; border-top: 1px solid var(--glass-border); animation: fadeIn 0.8s ease both; }
+.app-footer .footer-name { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; color: var(--text-primary); }
+.app-footer .footer-role { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
+.app-footer .footer-links { margin-top: 0.9rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+.app-footer .footer-links a {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 0.4rem 1rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    transition: all 0.25s ease;
+}
+.app-footer .footer-links a:hover { transform: translateY(-2px); border-color: var(--accent); background: var(--accent-soft); }
+.app-footer .footer-stack { margin-top: 1rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.03em; }
+.app-footer .footer-made { margin-top: 0.5rem; font-size: 0.78rem; color: var(--text-muted); }
+.app-footer .footer-copyright { margin-top: 0.9rem; font-size: 0.7rem; color: var(--text-muted); opacity: 0.7; }
+
+/* =====================================================================
+   14. SPLASH SCREEN
+   ===================================================================== */
+.splash-wrap {
+    text-align: center;
+    padding: 4rem 1rem;
+    animation: fadeIn 0.4s ease both;
+}
+.splash-logo { font-size: 3.4rem; animation: floaty 2s ease-in-out infinite, spinSlow 6s linear infinite; display: inline-block; }
+.splash-text { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; margin-top: 1rem; color: var(--text-primary); }
+.splash-sub { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem; }
+
+/* =====================================================================
+   15. MISC / RESPONSIVE
+   ===================================================================== */
+hr { border-color: var(--glass-border) !important; }
+
+@media (max-width: 992px) {
+    .hero-title { font-size: 2.6rem; }
+}
+
+@media (max-width: 768px) {
+    .hero-title { font-size: 2rem; }
+    .welcome-steps { flex-direction: column; }
+    .prediction-species { font-size: 2rem; }
+    .workflow-row { flex-direction: column; }
+    .workflow-arrow { transform: rotate(90deg); }
+}
+
+@media (max-width: 480px) {
+    .glass-card { padding: 1.2rem 1.3rem; }
+    .stat-number { font-size: 1.7rem; }
+}

@@ -1,0 +1,86 @@
+{
+  "dataset_summary": {
+    "n_samples": 150,
+    "n_features": 4,
+    "n_classes": 3,
+    "missing_values": 0,
+    "duplicate_rows": 1,
+    "class_distribution": {
+      "setosa": 50,
+      "versicolor": 50,
+      "virginica": 50
+    }
+  },
+  "best_k": 9,
+  "k_accuracies": {
+    "1": 0.9666666666666667,
+    "3": 0.9333333333333333,
+    "5": 0.9333333333333333,
+    "7": 0.9666666666666667,
+    "9": 1.0,
+    "11": 1.0,
+    "15": 1.0,
+    "21": 0.9333333333333333
+  },
+  "model_comparison": {
+    "K-Nearest Neighbors": {
+      "accuracy": 1.0,
+      "f1_score": 1.0,
+      "cv_mean_accuracy": 0.95,
+      "cv_std_accuracy": 0.0311804782231162
+    },
+    "Decision Tree": {
+      "accuracy": 0.9333333333333333,
+      "f1_score": 0.9333333333333333,
+      "cv_mean_accuracy": 0.95,
+      "cv_std_accuracy": 0.040824829046386304
+    },
+    "Random Forest": {
+      "accuracy": 0.9333333333333333,
+      "f1_score": 0.9333333333333333,
+      "cv_mean_accuracy": 0.95,
+      "cv_std_accuracy": 0.0311804782231162
+    },
+    "Logistic Regression": {
+      "accuracy": 0.9333333333333333,
+      "f1_score": 0.9333333333333333,
+      "cv_mean_accuracy": 0.9583333333333334,
+      "cv_std_accuracy": 0.026352313834736508
+    }
+  },
+  "best_model": "K-Nearest Neighbors",
+  "classification_report": {
+    "setosa": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 10.0
+    },
+    "versicolor": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 10.0
+    },
+    "virginica": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 10.0
+    },
+    "accuracy": 1.0,
+    "macro avg": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 30.0
+    },
+    "weighted avg": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 30.0
+    }
+  },
+  "test_accuracy": 1.0
+}
