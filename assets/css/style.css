@@ -599,3 +599,9 @@ hr { border-color: var(--glass-border) !important; }
     display: flex !important;
     z-index: 999999 !important;
 }
+
+/* Force Header and Sidebar button to be absolutely visible */
+header[data-testid='stHeader'] { background-color: transparent !important; visibility: visible !important; display: block !important; }
+[data-testid='collapsedControl'] { visibility: visible !important; display: flex !important; color: #ffffff !important; background-color: #000000 !important; opacity: 1 !important; z-index: 9999999 !important; border-radius: 5px !important; }
+section[data-testid='stSidebar'] { visibility: visible !important; }
+
