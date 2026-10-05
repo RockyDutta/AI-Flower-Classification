@@ -79,11 +79,9 @@ html, body, .stApp { font-family: var(--font-body); color: var(--text-primary); 
 
 #MainMenu { visibility: hidden; }
 footer { visibility: hidden; }
-header[data-testid="stHeader"] { background: rgba(0,0,0,0); }
 
-/* Hide Streamlit Deploy Button & Toolbar */
+/* Hide Streamlit Deploy Button */
 .stDeployButton { visibility: hidden !important; display: none !important; }
-[data-testid="stToolbar"] { visibility: hidden !important; display: none !important; }
 
 /* Accessibility: visible focus ring for keyboard users */
 a:focus-visible, button:focus-visible, [role="radio"]:focus-visible {
